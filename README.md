@@ -7,6 +7,7 @@ API responsible for applying the intelligence and business rules of the Applicat
 
 * Python (2.7, 3.4, 3.5, 3.6, 3.7 >)
 * Django (1.11, 2.0, 2.1 >)
+* Virtual Env (Arch Linux package - pacman -S python-virtualenv - [info here](https://www.archlinux.org/packages/?name=python-virtualenv))
 
 ### Clone
 
