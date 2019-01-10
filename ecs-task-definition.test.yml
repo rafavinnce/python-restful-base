@@ -1,0 +1,104 @@
+{
+  "family": "test-logger-service",
+  "networkMode": "host",
+  "requiresCompatibilities": [
+    "EC2"
+  ],
+  "containerDefinitions": [
+    {
+      "name": "logger-service",
+      "image": "beblue/logger-service",
+      "cpu": 128,
+      "memory": 256,
+      "environment": [
+        {
+          "name": "PORT",
+          "value": "0"
+        },
+        {
+          "name": "NODE_ENV",
+          "value": "test"
+        },
+        {
+          "name": "URL_RECOVERY_PWD",
+          "value": "http://cm-dev.beblue.com.br:4000"
+        },
+        {
+          "name": "PREVENTION_BACKEND_URL_MOBILE_SERVICE",
+          "value": "http://beblue-mobile-dev.us-east-2.elasticbeanstalk.com"
+        },
+        {
+          "name": "BACKOFFICE_API_URL",
+          "value": "http://backoffice-api-dev.us-east-2.elasticbeanstalk.com"
+        },
+        {
+          "name": "PREVENTION_BACKEND_TAXID_USER_CUSTOMER_EXPERIENCE",
+          "value": "44455566619"
+        },
+        {
+          "name": "NLB",
+          "value": "http://172.31.48.116"
+        },
+        {
+          "name": "NEW_RELIC_APP_NAME",
+          "value": "test-logger-service"
+        },
+        {
+          "name": "PREVENTION_BACKEND_BEBLUE_BI_SQL_CONNECTION",
+          "value": 
+"mssql://beblue_fraud:Qasp2x$=8bac@beblue-dev.database.beblue.com.br:1433/beblue_dev?encrypt=true"
+        },
+        {
+            "name": "PREVENTION_BACKEND_FRAUD_SQL_CONNECTION",
+            "value": 
+"mysql://beblue_backoffice:nD5H1LPBaOK7@mysql-dev.database.beblue.com.br/backofficebeblue"
+        },
+        {
+            "name": "PREVENTION_BACKEND_PASSWORD_USER_CUSTOMER_EXPERIENCE",
+            "value": "ZLKq7L07KT8l4J4+ZaJvbA==\n"
+        },
+        {
+            "name": "PREVENTION_BACKEND_X_API_KEY_MOBILE_SERVICE",
+            "value": "25CFE38D-3B92-46C0-91CA-CFF751A82D3D"
+        },
+        {
+            "name": "PREVENTION_BACKEND_BEBLUE_SQL_CONNECTION",
+            "value": 
+"mssql://beblue_fraud:Qasp2x$=8bac@beblue-dev.database.beblue.com.br:1433/beblue_dev?encrypt=true"
+        },
+        {
+            "name": "PREVENTION_BACKEND_NEW_RELIC_LICENCE_KEY",
+            "value": "81273e479acd9fd9a6f6e5f70af5c8197293299c"
+        },
+        {
+            "name": "PREVENTION_BACKEND_PRIVATE_KEY_JWT",
+            "value": "b4616c3c-2e7e-4ac7-92bd-61989f12c8f7"
+        },
+        {
+            "name": "PREVENTION_BACKEND_X_API_KEY_PREVENTION_SERVICE_V2",
+            "value": "c452242e-ff00-459a-bf1f-ef8501719903"
+        }
+      ],
+      "healthCheck": {
+        "interval": 10,
+        "timeout": 5,
+        "startPeriod": 30,
+        "retries": 3,
+        "command": [
+          "CMD-SHELL",
+          "test \"passing\" == $(curl -sf 
+http://localhost:8500/v1/agent/checks | jq -r \".\\\"service:$(cat 
+./src/app.properties | grep consul.instance-id | cut -d'=' 
+-f2)\\\".\\\"Status\\\"\")"
+        ]
+      },
+      "logConfiguration": {
+        "logDriver": "fluentd",
+        "options": {
+          "fluentd-address": "services.dev.beblue:26224",
+          "tag": "log.inline.json"
+        }
+      }
+    }
+  ]
+}
