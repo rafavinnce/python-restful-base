@@ -6,6 +6,11 @@ FROM python:3.7
 # to the terminal with out buffering it first
 ENV PYTHONUNBUFFERED 1
 
+# Set timezone
+RUN echo "America/Sao_Paulo" > /etc/timezone
+
+RUN dpkg-reconfigure -f noninteractive tzdata
+
 # create root directory for our project in the container
 RUN mkdir /logger_service
 
