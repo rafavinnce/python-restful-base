@@ -1,5 +1,5 @@
-# Django Restful API
-API responsible for applying the intelligence and business rules of the Application project.
+# Beblue Logger Service API
+Django Restful API responsible for applying the intelligence and business rules of the Logger project.
 
 ## Installation
 
@@ -14,12 +14,12 @@ API responsible for applying the intelligence and business rules of the Applicat
 Execute the following command to get the latest version of the project:
 
 ```terminal
-$ git clone git@github.com:rafaelmilanibarbosa/python-restful-base.git python-restful-base
+$ git clone git clone git@bitbucket.org:beblue/logger-service.git logger-service
 ```
 
 ### Setup the local virtual environment
 ```terminal
-cd python-restful-base
+cd logger-service
 virtualenv env
 source env/bin/activate
 pip install django
