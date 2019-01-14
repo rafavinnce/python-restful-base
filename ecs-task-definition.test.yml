@@ -1,104 +1,179 @@
 {
-  "family": "test-logger-service",
-  "networkMode": "host",
-  "requiresCompatibilities": [
-    "EC2"
-  ],
-  "containerDefinitions": [
-    {
-      "name": "logger-service",
-      "image": "beblue/logger-service",
-      "cpu": 128,
-      "memory": 256,
-      "environment": [
+    "family": "test-logger-service",
+    "networkMode": "host",
+    "requiresCompatibilities": [
+        "EC2"
+    ],
+    "containerDefinitions": [
         {
-          "name": "PORT",
-          "value": "0"
-        },
-        {
-          "name": "NODE_ENV",
-          "value": "test"
-        },
-        {
-          "name": "URL_RECOVERY_PWD",
-          "value": "http://cm-dev.beblue.com.br:4000"
-        },
-        {
-          "name": "PREVENTION_BACKEND_URL_MOBILE_SERVICE",
-          "value": "http://beblue-mobile-dev.us-east-2.elasticbeanstalk.com"
-        },
-        {
-          "name": "BACKOFFICE_API_URL",
-          "value": "http://backoffice-api-dev.us-east-2.elasticbeanstalk.com"
-        },
-        {
-          "name": "PREVENTION_BACKEND_TAXID_USER_CUSTOMER_EXPERIENCE",
-          "value": "44455566619"
-        },
-        {
-          "name": "NLB",
-          "value": "http://172.31.48.116"
-        },
-        {
-          "name": "NEW_RELIC_APP_NAME",
-          "value": "test-logger-service"
-        },
-        {
-          "name": "PREVENTION_BACKEND_BEBLUE_BI_SQL_CONNECTION",
-          "value": 
-"mssql://beblue_fraud:Qasp2x$=8bac@beblue-dev.database.beblue.com.br:1433/beblue_dev?encrypt=true"
-        },
-        {
-            "name": "PREVENTION_BACKEND_FRAUD_SQL_CONNECTION",
-            "value": 
-"mysql://beblue_backoffice:nD5H1LPBaOK7@mysql-dev.database.beblue.com.br/backofficebeblue"
-        },
-        {
-            "name": "PREVENTION_BACKEND_PASSWORD_USER_CUSTOMER_EXPERIENCE",
-            "value": "ZLKq7L07KT8l4J4+ZaJvbA==\n"
-        },
-        {
-            "name": "PREVENTION_BACKEND_X_API_KEY_MOBILE_SERVICE",
-            "value": "25CFE38D-3B92-46C0-91CA-CFF751A82D3D"
-        },
-        {
-            "name": "PREVENTION_BACKEND_BEBLUE_SQL_CONNECTION",
-            "value": 
-"mssql://beblue_fraud:Qasp2x$=8bac@beblue-dev.database.beblue.com.br:1433/beblue_dev?encrypt=true"
-        },
-        {
-            "name": "PREVENTION_BACKEND_NEW_RELIC_LICENCE_KEY",
-            "value": "81273e479acd9fd9a6f6e5f70af5c8197293299c"
-        },
-        {
-            "name": "PREVENTION_BACKEND_PRIVATE_KEY_JWT",
-            "value": "b4616c3c-2e7e-4ac7-92bd-61989f12c8f7"
-        },
-        {
-            "name": "PREVENTION_BACKEND_X_API_KEY_PREVENTION_SERVICE_V2",
-            "value": "c452242e-ff00-459a-bf1f-ef8501719903"
+            "name": "logger-sergice",
+            "image": "beblue/logger-service",
+            "cpu": 256,
+            "memory": 1792,
+            "environment": [
+                {
+                    "name": "CARDTRUE_READONLY_DB_DRIVER",
+                    "value": "ODBC+Driver+17+for+SQL+Server"
+                },
+                {
+                    "name": "POINT_TO_CARDTRUE",
+                    "value": "1"
+                },
+                {
+                    "name": "BEBLUE_DASHBOARD_BASE_URL",
+                    "value": "https://portal-dev.beblue.com.br:11787"
+                },
+                {
+                    "name": "BEBLUE_DASHBOARD_ROOT_DIR",
+                    "value": "/portal-api"
+                },
+                {
+                    "name": "ENVIRONMENT",
+                    "value": "development"
+                },
+                {
+                    "name": "RECOVER_PASSWORD_URL",
+                    "value": "https://portal-dev.beblue.com.br:443/reiniciar-senha"
+                },
+                {
+                    "name": "VOUCHER_SERVICE_DOMAIN",
+                    "value": "http://voucher-service:5000"
+                },
+                {
+                    "name": "PDV_DOMAIN",
+                    "value": "https://pdv-api-dev.beblue.com.br"
+                },
+                {
+                    "name": "FLASGGER",
+                    "value": "0"
+                },
+                {
+                    "name": "NEW_RELIC_CONFIG_FILE",
+                    "value": "/portal-api/newrelic.ini"
+                },
+                {
+                    "name": "VOUCHER_X_API_KEY",
+                    "value": "D3D28A157FFC-AC19-0C64-29B3-D83EFC52"
+                },
+                {
+                    "name": "NEW_RELIC_ENVIRONMENT",
+                    "value": "development"
+                },
+                {
+                    "name": "S3_BUCKET_NAME",
+                    "value": "dev-06bdcc01-cluster"
+                },
+                {
+                    "name": "S3_TEMPORARY_FOLDER",
+                    "value": "portal-backend/_tempfolder"
+                },
+                {
+                    "name": "CARDTRUE_READONLY_DB_HOST",
+                    "value": "beblue-dev.database.beblue.com.br"
+                },
+                {
+                    "name": "CARDTRUE_READONLY_DB_NAME",
+                    "value": "beblue_dev"
+                },
+                {
+                    "name": "CARDTRUE_READONLY_DB_PASSWORD",
+                    "value": "gb*RzUFnCu2qSDY7c"
+                },
+                {
+                    "name": "CARDTRUE_READONLY_DB_PORT",
+                    "value": "1433"
+                },
+                {
+                    "name": "CARDTRUE_READONLY_DB_USER",
+                    "value": "beblue_portal_api"
+                },
+                {
+                    "name": "DASHBOARD_DB_HOST",
+                    "value": "postgre-dev.database.beblue.com.br"
+                },
+                {
+                    "name": "DASHBOARD_DB_NAME",
+                    "value": "portal"
+                },
+                {
+                    "name": "DASHBOARD_DB_PASSWORD",
+                    "value": "pHuteW=c*6sp"
+                },
+                {
+                    "name": "DASHBOARD_DB_PORT",
+                    "value": "5432"
+                },
+                {
+                    "name": "DASHBOARD_DB_USER",
+                    "value": "portal"
+                },
+                {
+                    "name": "DASHBOARD_HASH_KEY",
+                    "value": "y?n8g2=m0x%h2W+6"
+                },
+                {
+                    "name": "DASHBOARD_PASSWORD_SALT",
+                    "value": "a5lfV3u2.@x0+1so2pOv)2cw_mO7a5>9"
+                },
+                {
+                    "name": "DASHBOARD_SECRET_KEY",
+                    "value": "19dkmb@3x5m<f934_kgh6xje04+c0z1a"
+                },
+                {
+                    "name": "INTERCOM_API_KEY",
+                    "value": "creZjc-sBLD6uzQPAS-xV468pcyVbPeYtwZgL4LH"
+                },
+                {
+                    "name": "NEW_RELIC_KEY",
+                    "value": "e343d5021dd527808348b13f90c5513b4b7b5876"
+                },
+                {
+                    "name": "SENDGRID_API_KEY",
+                    "value": "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"
+                },
+                {
+                    "name": "SENTRY_DSN",
+                    "value": "https://4454a6e8e04245fc95421c2ed9b897db:bd9330b6b15540cba1f241a33e30dfbd@sentry.io/276993"
+                },
+                {
+                    "name": "REDSHIFT_DB_HOST",
+                    "value": "cluster0.cyh2bowczkqq.us-east-1.redshift.amazonaws.com"
+                },
+                {
+                    "name": "REDSHIFT_DB_NAME",
+                    "value": "portal"
+                },
+                {
+                    "name": "REDSHIFT_DB_PASSWORD",
+                    "value": "LCbQO5UaySs"
+                },
+                {
+                    "name": "REDSHIFT_DB_PORT",
+                    "value": "5439"
+                },
+                {
+                    "name": "REDSHIFT_DB_USER",
+                    "value": "portal"
+                }
+            ],
+            "healthCheck": {
+                "invertal": 30,
+                "timeout": 2,
+                "startPeriod": 30,
+                "retries": 3,
+                "command": [
+                    "CMD-SHELL",
+                    "test \"passing\" = $(curl -sf http://localhost:8500/v1/agent/checks | jq -r \".[\\\"service:$(cat /portal-api/app.properties)\\\"].Status\")"
+                ]
+            },
+            "logConfiguration": {
+                "logDriver": "fluentd",
+                "options": {
+                    "fluentd-address": "services.dev.beblue:26224",
+                    "fluentd-sub-second-precision": true,
+                    "tag": "log.inline.json"
+                }
+            }
         }
-      ],
-      "healthCheck": {
-        "interval": 10,
-        "timeout": 5,
-        "startPeriod": 30,
-        "retries": 3,
-        "command": [
-          "CMD-SHELL",
-          "test \"passing\" == $(curl -sf 
-http://localhost:8500/v1/agent/checks | jq -r \".\\\"service:$(cat 
-./src/app.properties | grep consul.instance-id | cut -d'=' 
--f2)\\\".\\\"Status\\\"\")"
-        ]
-      },
-      "logConfiguration": {
-        "logDriver": "fluentd",
-        "options": {
-          "fluentd-address": "services.dev.beblue:26224",
-          "tag": "log.inline.json"
-        }
-      }
-    }
-  ]
+    ]
 }
