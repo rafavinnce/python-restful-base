@@ -154,6 +154,10 @@
                 {
                     "name": "REDSHIFT_DB_USER",
                     "value": "portal"
+                },
+                {
+                    "name": "DD_API_KEY",
+                    "value": "12f2a1e88301811b4815d20bb562ab8a"
                 }
             ],
             "healthCheck": {

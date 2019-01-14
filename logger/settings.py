@@ -43,7 +43,23 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'ddtrace.contrib.django',
 ]
+
+DATADOG_TRACE = {
+    'DEFAULT_SERVICE': env('DATADOG_DEFAULT_SERVICE'),
+    'TAGS': {'env': env('DATADOG_TAGS_ENV')},
+    'ENABLED': env.bool('DATADOG_ENABLED', False),
+}
+
+LOGGING = {
+    'loggers': {
+        'ddtrace': {
+            'handlers': ['console'],
+            'level': 'WARNING',
+        },
+    },
+}
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
