@@ -9,3 +9,4 @@ coreapi==2.3.1 # Python client library for Core API - https://github.com/core-ap
 coreschema==0.0.4
 pyyaml
 ddtrace # Datadog APM integration - http://pypi.datadoghq.com/trace/docs/web_integrations.html#django
+requests==2.19.1
