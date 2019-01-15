@@ -23,7 +23,6 @@ pipelines:
           deployment: test
           script:
             - deploy --environment "test" --nodes 1
-
   branches:
     master:
       - step:

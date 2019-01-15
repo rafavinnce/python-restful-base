@@ -38,7 +38,35 @@
                 {
                     "name": "DD_API_KEY",
                     "value": "12f2a1e88301811b4815d20bb562ab8a"
-                }
+                },
+                {
+                  "name": "DJANGO_SECRET_KEY",
+                  "value": "wm-g%qf8y#gc6h57a#6ywzobqy9t@5)%bcl*uf9!5nz@0v2pdc",
+                },
+                {
+                  "name": "DJANGO_DEBUG",
+                  "value": "True",
+                },
+                {
+                  "name": "DATADOG_ENABLED",
+                  "value": "True",
+                },
+                {
+                  "name": "DATADOG_TAGS_ENV",
+                  "value": "test",
+                },
+                {
+                  "name": "DATADOG_DEFAULT_SERVICE",
+                  "value": "logger-service",
+                },
+                {
+                  "name": "DJANGO_MANAGEPY_MIGRATE",
+                  "value": "False",
+                },
+                {
+                  "name": "DJANGO_MANAGEPY_COLLECTSTATIC",
+                  "value": "False",
+                },
             ],
             "healthCheck": {
                 "invertal": 30,

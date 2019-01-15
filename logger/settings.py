@@ -11,11 +11,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-import environ
-
-root = environ.Path(__file__) - 1  # three folder back (/a/b/c/ - 1 = /)
-env = environ.Env(DEBUG=(bool, False),)  # set default values and casting
-environ.Env.read_env()  # reading .env file
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,10 +20,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('DJANGO_SECRET_KEY')
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool('DJANGO_DEBUG', False)
+DEBUG = bool(os.environ.get("DJANGO_DEBUG"))
 
 ALLOWED_HOSTS = []
 
@@ -47,9 +42,9 @@ INSTALLED_APPS = [
 ]
 
 DATADOG_TRACE = {
-    'DEFAULT_SERVICE': env('DATADOG_DEFAULT_SERVICE'),
-    'TAGS': {'env': env('DATADOG_TAGS_ENV')},
-    'ENABLED': env.bool('DATADOG_ENABLED', False),
+    'DEFAULT_SERVICE': os.environ.get("DATADOG_DEFAULT_SERVICE"),
+    'TAGS': {'env': os.environ.get('DATADOG_TAGS_ENV')},
+    'ENABLED': os.environ.get(bool('DATADOG_ENABLED')),
 }
 
 LOGGING = {
@@ -104,7 +99,15 @@ WSGI_APPLICATION = 'logger.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
-    'default': env.db(),
+    'default': {
+        'ENGINE': os.environ.get("POSTGRES_DB_ENGINE"),
+        'NAME': os.environ.get("POSTGRES_DB_NAME"),
+        'USER': os.environ.get("POSTGRES_DB_USER"),
+        'PASSWORD': os.environ.get("POSTGRES_DB_PASSWORD"),
+        'HOST': os.environ.get("POSTGRES_DB_HOST"),
+        'PORT': int(os.environ.get('POSTGRES_DB_PORT')),
+    }
+
 }
 
 

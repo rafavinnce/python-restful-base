@@ -1,0 +1,14 @@
+version: '3.3'
+
+services:
+  portal-api:
+    image: portal-api-local
+    network_mode: "host"
+    restart: always
+    volumes:
+      - /home/phakiller/.aws/credentials:/root/.aws/credentials
+    env_file:
+      - ./dev.env
+  consul:
+    image: consul
+    network_mode: "host"
