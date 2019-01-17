@@ -19,7 +19,7 @@ RUN apk add ca-certificates && update-ca-certificates
 
 # Change TimeZone
 RUN apk add --update tzdata
-ENV TZ=America/Sao_Paulo
+ENV TZ=${WORKSPACE_TZDATA}
 
 # Clean APK cache
 RUN rm -rf /var/cache/apk/*
@@ -30,6 +30,7 @@ RUN set -ex \
             python \
             python-dev \
             py-pip \
+            curl \
             gcc \
             make \
 	        jq \
@@ -44,6 +45,9 @@ RUN set -ex \
 # Install pip dependencies
 RUN pip install --no-cache-dir -r /requirements.txt
 
+# Datadog Agent
+RUN D_API_KEY=12f2a1e88301811b4815d20bb562ab8a sh -c "$(curl -L https://raw.githubusercontent.com/DataDog/dd-agent/master/packaging/datadog-agent/source/setup_agent.sh)"
+
 # Copy your application code to the container (make sure you create a .dockerignore file if any large files or directories should be excluded)
 RUN mkdir /logger-sevice/
 
@@ -52,9 +56,6 @@ WORKDIR /logger-service/
 
 # Copy the current directory contents into the container at /logger_service
 COPY . /logger-service/
-
-# Add any custom, static environment variables needed by Django or your settings file here:
-ENV DJANGO_SETTINGS_MODULE=logger.settings.deploy
 
 # uWSGI configuration (customize as needed):
 ENV UWSGI_WSGI_FILE=logger/wsgi.py UWSGI_HTTP=:${SERVICE_PORT} UWSGI_MASTER=1 UWSGI_WORKERS=2 UWSGI_THREADS=8 UWSGI_UID=1000 UWSGI_GID=2000 UWSGI_LAZY_APPS=1 UWSGI_WSGI_ENV_BEHAVIOR=holy
@@ -70,11 +71,12 @@ EXPOSE ${SERVICE_PORT}
 RUN SERVICE_ID=logger-service-$(cat /proc/sys/kernel/random/uuid) && echo $SERVICE_ID > /logger-service/app.properties
 
 # Call collectstatic (customize the following line with the minimal environment variables needed for manage.py to run):
-RUN python manage.py collectstatic --noinput
+# RUN ddtrace-run python manage.py
+RUN python manage.py runserver ${SERVICE_PORT}
 
 # Startup Script
+RUN chmod +x /logger-service/entrypoint.sh
 ENTRYPOINT ["/logger-service/entrypoint.sh"]
 
 # Start uWSGI
-CMD ["/venv/bin/uwsgi", "--http-auto-chunked", "--http-keepalive"]
-
+CMD ["ddtrace-run", "uwsgi", "--http-auto-chunked", "--http-keepalive"]

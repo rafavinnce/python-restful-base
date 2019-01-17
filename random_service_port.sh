@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # ecs config
 if [ "${ENVIRONMENT}" != "local" ]

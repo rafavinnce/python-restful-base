@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
+SECRET_KEY = os.getenv('SECRET_KEY', '8lu*6g0lg)9z!ba+a$ehk)xt)x%rxgb$i1&amp;022shmi1jcgihb*')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.environ.get("DJANGO_DEBUG"))
+DEBUG = os.getenv('SECRET_KEY', True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '111.222.333.444']
 
 
 # Application definition
@@ -38,23 +38,24 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'ddtrace.contrib.django',
+    # 'ddtrace.contrib.django',
 ]
 
-DATADOG_TRACE = {
-    'DEFAULT_SERVICE': os.environ.get("DATADOG_DEFAULT_SERVICE"),
-    'TAGS': {'env': os.environ.get('DATADOG_TAGS_ENV')},
-    'ENABLED': os.environ.get(bool('DATADOG_ENABLED')),
-}
-
-LOGGING = {
-    'loggers': {
-        'ddtrace': {
-            'handlers': ['console'],
-            'level': 'WARNING',
-        },
-    },
-}
+# DATADOG_TRACE = {
+#     'DEFAULT_SERVICE': os.environ.get("DATADOG_DEFAULT_SERVICE"),
+#     'TAGS': {'env': os.environ.get('DATADOG_TAGS_ENV')},
+#     'ENABLED': os.environ.get('DATADOG_ENABLED'),
+# }
+#
+# LOGGING = {
+#     'version': 1,
+#     'loggers': {
+#         'ddtrace': {
+#             'handlers': ['console'],
+#             'level': 'WARNING',
+#         },
+#     },
+# }
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -100,12 +101,12 @@ WSGI_APPLICATION = 'logger.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get("POSTGRES_DB_ENGINE"),
-        'NAME': os.environ.get("POSTGRES_DB_NAME"),
-        'USER': os.environ.get("POSTGRES_DB_USER"),
-        'PASSWORD': os.environ.get("POSTGRES_DB_PASSWORD"),
-        'HOST': os.environ.get("POSTGRES_DB_HOST"),
-        'PORT': int(os.environ.get('POSTGRES_DB_PORT')),
+        'ENGINE': os.environ.get("POSTGRES_ENGINE"),
+        'NAME': os.environ.get("POSTGRES_NAME"),
+        'USER': os.environ.get("POSTGRES_USER"),
+        'PASSWORD': os.environ.get("POSTGRES_PASSWORD"),
+        'HOST': os.environ.get("POSTGRES_HOST"),
+        'PORT': os.environ.get('POSTGRES_PORT'),
     }
 
 }
@@ -135,7 +136,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = os.environ.get("WORKSPACE_TZDATA")
 
 USE_I18N = True
 

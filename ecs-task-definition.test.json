@@ -1,6 +1,5 @@
 {
     "family": "test-logger-service",
-    "networkMode": "host",
     "requiresCompatibilities": [
         "EC2"
     ],
@@ -9,30 +8,41 @@
             "name": "logger-service",
             "image": "beblue/logger-service",
             "cpu": 256,
-            "memory": 1792,
+            "memory": 1024,
+            "portMappings": [
+                {
+                    "HostPort": 8088,
+                    "ContainerPort": 8080,
+                    "Protocol": "tcp"
+                }
+            ],
             "environment": [
                 {
                     "name": "ENVIRONMENT",
                     "value": "development"
                 },
                 {
-                    "name": "POSTGRES_DB_HOST",
+                    "name": "POSTGRES_ENGINE",
+                    "value": "django.db.backends.postgresql"
+                },
+                {
+                    "name": "POSTGRES_HOST",
                     "value": "postgre-dev.database.beblue.com.br"
                 },
                 {
-                    "name": "POSTGRES_DB_NAME",
+                    "name": "POSTGRES_NAME",
                     "value": "logger_service"
                 },
                 {
-                  "name": "POSTGRES_DB_USER",
+                  "name": "POSTGRES_USER",
                   "value": "logger_service"
                 },
                 {
-                    "name": "POSTGRES_DB_PASSWORD",
+                    "name": "POSTGRES_PASSWORD",
                     "value": "pHuteW=c*6sp"
                 },
                 {
-                    "name": "POSTGRES_DB_PORT",
+                    "name": "POSTGRES_PORT",
                     "value": "5432"
                 },
                 {
@@ -41,41 +51,41 @@
                 },
                 {
                   "name": "DJANGO_SECRET_KEY",
-                  "value": "wm-g%qf8y#gc6h57a#6ywzobqy9t@5)%bcl*uf9!5nz@0v2pdc",
+                  "value": "wm-g%qf8y#gc6h57a#6ywzobqy9t@5)%bcl*uf9!5nz@0v2pdc"
                 },
                 {
                   "name": "DJANGO_DEBUG",
-                  "value": "True",
+                  "value": "True"
                 },
                 {
                   "name": "DATADOG_ENABLED",
-                  "value": "True",
+                  "value": "True"
                 },
                 {
                   "name": "DATADOG_TAGS_ENV",
-                  "value": "test",
+                  "value": "test"
                 },
                 {
                   "name": "DATADOG_DEFAULT_SERVICE",
-                  "value": "logger-service",
+                  "value": "logger-service"
                 },
                 {
                   "name": "DJANGO_MANAGEPY_MIGRATE",
-                  "value": "False",
+                  "value": "False"
                 },
                 {
                   "name": "DJANGO_MANAGEPY_COLLECTSTATIC",
-                  "value": "False",
-                },
+                  "value": "False"
+                }
             ],
             "healthCheck": {
                 "invertal": 30,
-                "timeout": 2,
-                "startPeriod": 30,
+                "timeout": 5,
+                "startPeriod": 120,
                 "retries": 3,
                 "command": [
                     "CMD-SHELL",
-                    "test \"passing\" = $(curl -sf http://localhost:8500/v1/agent/checks | jq -r \".[\\\"service:$(cat /logger/app.properties)\\\"].Status\")"
+                    "test \"passing\" == $(curl -sf http://host-ip:8500/v1/agent/checks | jq -r '.[\"service:container:'$(cut -d\"/\" -f4 < /proc/1/cpuset)'\"].Status')"
                 ]
             },
             "logConfiguration": {

@@ -1,14 +1,46 @@
-version: '3.3'
+version: '3'
+
+networks:
+  frontend:
+    driver: ${NETWORKS_DRIVER}
+  backend:
+    driver: ${NETWORKS_DRIVER}
+
+volumes:
+  postgres:
+    driver: ${VOLUMES_DRIVER}
 
 services:
-  portal-api:
-    image: portal-api-local
-    network_mode: "host"
+  logger-service:
+    image: logger-service-local
     restart: always
     volumes:
-      - /home/phakiller/.aws/credentials:/root/.aws/credentials
+#      - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+      - ./:/logger-service
+#    volumes:
+#      - /home/phakiller/.aws/credentials:/root/.aws/credentials
     env_file:
-      - ./dev.env
-  consul:
-    image: consul
-    network_mode: "host"
+      - .env
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    links:
+      - database
+    ports:
+      - "${WORKSPACE_SSH_PORT}:22"
+#      - "${WORKSPACE_APP_PORT}:8000"
+      - "8000:8000"
+    networks:
+      - frontend
+      - backend
+  database:
+    image: postgres
+    restart: always
+    volumes:
+      - ${DATA_PATH_HOST}/postgres:/var/lib/postgresql/data
+    env_file:
+      - .env
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    networks:
+      - backend

@@ -1,0 +1,5 @@
+# Core mandatory packages
+
+django
+djangorestframework
+coreapi==2.3.1 # Python client library for Core API - https://github.com/core-api/python-client
