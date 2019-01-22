@@ -1,4 +1,3 @@
-
 options:
   docker: true
 pipelines:

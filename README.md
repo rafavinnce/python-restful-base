@@ -20,21 +20,17 @@ $ git clone git clone git@bitbucket.org:beblue/logger-service.git logger-service
 ### Setup the local virtual environment
 ```terminal
 cd logger-service
-virtualenv env
-source env/bin/activate
-pip install django
-pip install djangorestframework
-pip install -r requirements.txt
-./manage.py migrate
-./manage.py createsuperuser
+docker-compose up --build -d
+docker-compose exec logger_service python manage.py migrate 
+docker-compose exec logger_service python manage.py createsuperuser 
 ```
 
 ## Run
 ### Run local server
-```terminal
-./manage.py runserver
-```
 The base address of RESTful API is [http://127.0.0.1:8000](http://127.0.1:8000)
+```terminal
+curl -H 'Accept: application/json; indent=4' -u your_uer:'your_pass' http://127.0.0.1:8000/
+```
 
 ## Tests
 ### Run the tests
