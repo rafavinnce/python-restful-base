@@ -11,28 +11,6 @@ volumes:
     driver: ${VOLUMES_DRIVER}
 
 services:
-  logger-service:
-    image: logger-service-local
-    restart: always
-    volumes:
-#      - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
-      - ./:/logger-service
-#    volumes:
-#      - /home/phakiller/.aws/credentials:/root/.aws/credentials
-    env_file:
-      - .env
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    links:
-      - database
-    ports:
-      - "${WORKSPACE_SSH_PORT}:22"
-#      - "${WORKSPACE_APP_PORT}:8000"
-      - "8000:8000"
-    networks:
-      - frontend
-      - backend
   database:
     image: postgres
     restart: always
@@ -44,3 +22,23 @@ services:
       - "${POSTGRES_PORT}:5432"
     networks:
       - backend
+  logger_service:
+    image: logger-service-local
+    restart: always
+    volumes:
+      - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    depends_on:
+      - database
+    links:
+      - database:database
+    ports:
+      - "${WORKSPACE_APP_PORT}:8000"
+      - "${WORKSPACE_SSH_PORT}:22"
+    networks:
+      - backend
+      - frontend

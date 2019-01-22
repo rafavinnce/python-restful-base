@@ -1,82 +1,64 @@
-# The first instruction is what image we want to base our container on
-# We Use an official Python runtime as a parent image
 FROM python:3.7-alpine
 
-# The enviroment variable ensures that the python output is set straight
-# to the terminal with out buffering it first
-ENV PYTHONUNBUFFERED 1
+# environments
+ENV DJANGO_SECRET_KEY $SECRET_KEY
+ENV DJANGO_DEBUG $DJANGO_DEBUG
+ENV ALLOWED_HOSTS $ALLOWED_HOSTS
 
-# Copy in your requirements file
-COPY requirements.txt /requirements.txt
-
-# OR, if you’re using a directory for your requirements, copy everything (comment out the above and uncomment this if so):
-COPY requirements /requirements
-
-# Install base packages
+## Install base packages
 RUN apk update
 RUN apk upgrade
-RUN apk add ca-certificates && update-ca-certificates
 
-# Change TimeZone
-RUN apk add --update tzdata
-ENV TZ=${WORKSPACE_TZDATA}
+## Change TimeZone
+ENV TZ=America/Sao_Paulo
+RUN set -x \
+    && apk add tzdata \
+    && cp /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime \
+    && echo "America/Sao_Paulo" >  /etc/timezone
 
-# Clean APK cache
+## Clean APK cache
 RUN rm -rf /var/cache/apk/*
+
+# Copy in your requirements file
+ADD requirements.txt /requirements.txt
+
+# OR, if you’re using a directory for your requirements, copy everything (comment out the above and uncomment this if so):
+ADD requirements /requirements
 
 # Install build deps, then run `pip install`, then remove unneeded build deps all in a single step. Correct the path to your production requirements file, if needed.
 RUN set -ex \
-    && apk add --no-cache --update \
-            python \
-            python-dev \
-            py-pip \
-            curl \
+    && apk add \
             gcc \
             make \
-	        jq \
             libc-dev \
             musl-dev \
+            curl \
+            jq \
             linux-headers \
             pcre-dev \
             postgresql-dev \
     && pip install -U pip \
-    && rm -rf /var/cache/apk/*
-
-# Install pip dependencies
-RUN pip install --no-cache-dir -r /requirements.txt
-
-# Datadog Agent
-RUN D_API_KEY=12f2a1e88301811b4815d20bb562ab8a sh -c "$(curl -L https://raw.githubusercontent.com/DataDog/dd-agent/master/packaging/datadog-agent/source/setup_agent.sh)"
+    && pip install -r /requirements.txt
 
 # Copy your application code to the container (make sure you create a .dockerignore file if any large files or directories should be excluded)
-RUN mkdir /logger-sevice/
-
-# Set the working directory to /logger_service
-WORKDIR /logger-service/
-
-# Copy the current directory contents into the container at /logger_service
-COPY . /logger-service/
-
-# uWSGI configuration (customize as needed):
-ENV UWSGI_WSGI_FILE=logger/wsgi.py UWSGI_HTTP=:${SERVICE_PORT} UWSGI_MASTER=1 UWSGI_WORKERS=2 UWSGI_THREADS=8 UWSGI_UID=1000 UWSGI_GID=2000 UWSGI_LAZY_APPS=1 UWSGI_WSGI_ENV_BEHAVIOR=holy
-
-# Get ECS random service port
-RUN chmod +x /logger-service/random_service_port.sh && /logger-service/random_service_port.sh
+RUN mkdir /code/
+WORKDIR /code/
+ADD . /code/
 
 # uWSGI will listen on this port
-# EXPOSE 8000
-EXPOSE ${SERVICE_PORT}
+EXPOSE 8000
 
-# Generate service id environment variable
-RUN SERVICE_ID=logger-service-$(cat /proc/sys/kernel/random/uuid) && echo $SERVICE_ID > /logger-service/app.properties
+# uWSGI configuration (customize as needed):
+ENV UWSGI_WSGI_FILE=logger/wsgi.py UWSGI_HTTP=:8000 UWSGI_MASTER=1 UWSGI_WORKERS=2 UWSGI_THREADS=8 UWSGI_UID=1000 UWSGI_GID=2000 UWSGI_LAZY_APPS=1 UWSGI_WSGI_ENV_BEHAVIOR=holy
 
 # Call collectstatic (customize the following line with the minimal environment variables needed for manage.py to run):
-# RUN ddtrace-run python manage.py
-RUN python manage.py runserver ${SERVICE_PORT}
-
-# Startup Script
-RUN chmod +x /logger-service/entrypoint.sh
-ENTRYPOINT ["/logger-service/entrypoint.sh"]
+RUN python manage.py
+## RUN ddtrace-run python manage.py
 
 # Start uWSGI
-CMD ["ddtrace-run", "uwsgi", "--http-auto-chunked", "--http-keepalive"]
+CMD ["uwsgi", "--http-auto-chunked", "--http-keepalive"]
+#CMD ["ddtrace-run", "uwsgi", "--http-auto-chunked", "--http-keepalive"]
+
+## Startup Script
+##RUN chmod +x /logger-service/entrypoint.sh
+##ENTRYPOINT ["/logger-service/entrypoint.sh"]

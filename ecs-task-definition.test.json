@@ -11,8 +11,8 @@
             "memory": 1024,
             "portMappings": [
                 {
-                    "HostPort": 8088,
-                    "ContainerPort": 8080,
+                    "HostPort": 0,
+                    "ContainerPort": 8000,
                     "Protocol": "tcp"
                 }
             ],
