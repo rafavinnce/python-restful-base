@@ -20,6 +20,7 @@ $ git clone git clone git@bitbucket.org:beblue/logger-service.git logger-service
 ### Setup the local virtual environment
 ```terminal
 cd logger-service
+cp -R .env.example .env # rename variables with own values
 docker-compose up --build -d
 docker-compose exec logger_service python manage.py migrate 
 docker-compose exec logger_service python manage.py createsuperuser 
@@ -30,6 +31,11 @@ docker-compose exec logger_service python manage.py createsuperuser
 The base address of RESTful API is [http://127.0.0.1:8000](http://127.0.1:8000)
 ```terminal
 curl -H 'Accept: application/json; indent=4' -u your_uer:'your_pass' http://127.0.0.1:8000/
+
+or without auth user
+
+curl -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/health/
+
 ```
 
 ## Tests

@@ -18,6 +18,18 @@
             ],
             "environment": [
                 {
+                  "name": "SERVICE_ID",
+                  "value": "container:<id>"
+                },
+                {
+                  "name": "SERVICE_CHECK_HTTP",
+                  "value": "/health/"
+                },
+                {
+                  "name": "SERVICE_CHECK_DEREGISTER_AFTER",
+                  "value": "5m"
+                },
+                {
                     "name": "ENVIRONMENT",
                     "value": "development"
                 },
@@ -79,7 +91,7 @@
                 },
                 {
                   "name": "ALLOWED_HOSTS",
-                  "value": "localhost,server,127.0.0.1,111.222.333.444,api.test"
+                  "value": "*"
                 },
                 {
                   "name": "WORKSPACE_APP_PORT",
