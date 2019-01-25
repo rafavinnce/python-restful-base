@@ -30,7 +30,6 @@ venv/
 ENV/
 
 *.sqlite3
-migrations/
 db.sqlite3
 
 
