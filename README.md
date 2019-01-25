@@ -1,4 +1,4 @@
-# Beblue Logger Service API
+# Python Restful Logger Service API
 Django Restful API responsible for applying the intelligence and business rules of the Logger project.
 
 ## Installation
@@ -14,12 +14,12 @@ Django Restful API responsible for applying the intelligence and business rules 
 Execute the following command to get the latest version of the project:
 
 ```terminal
-$ git clone git clone git@bitbucket.org:beblue/logger-service.git logger-service
+$ git clone git clone git@github.com:rafaelmilanibarbosa/python-restful-base.git python-restful-base
 ```
 
 ### Setup the local virtual environment
 ```terminal
-cd logger-service
+cd python-restful-base
 cp -R .env.example .env # rename variables with own values
 docker-compose up --build -d
 docker-compose exec logger_service python manage.py migrate 

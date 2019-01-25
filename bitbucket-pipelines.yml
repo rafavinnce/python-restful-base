@@ -6,17 +6,17 @@ pipelines:
       - step:
           name: Build and Upload
           image:
-            name: beblue/aws:ecs
+            name: aws:ecs
             username: $DOCKER_USERNAME
             password: $DOCKER_PASSWORD
           caches:
             - docker
           script:
-            - upload --repository "beblue/logger-service"
+            - upload --repository "service"
       - step:
           name: Deploy to Test
           image:
-            name: beblue/aws:ecs
+            name: aws:ecs
             username: $DOCKER_USERNAME
             password: $DOCKER_PASSWORD
           deployment: test
@@ -27,10 +27,10 @@ pipelines:
       - step:
           name: Build and Upload
           image:
-            name: beblue/aws:ecs
+            name: aws:ecs
             username: $DOCKER_USERNAME
             password: $DOCKER_PASSWORD
           caches:
             - docker
           script:
-            - upload --repository "beblue/logger-service"
+            - upload --repository "service"

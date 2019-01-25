@@ -6,7 +6,7 @@
     "containerDefinitions": [
         {
             "name": "logger-service",
-            "image": "beblue/logger-service",
+            "image": "logger-service",
             "cpu": 256,
             "memory": 1024,
             "portMappings": [
@@ -39,7 +39,7 @@
                 },
                 {
                     "name": "POSTGRES_HOST",
-                    "value": "postgre-dev.database.beblue.com.br"
+                    "value": "your database"
                 },
                 {
                     "name": "POSTGRES_NAME",
@@ -51,7 +51,7 @@
                 },
                 {
                     "name": "POSTGRES_PASSWORD",
-                    "value": "dyIzmqY5D@gV"
+                    "value": "password"
                 },
                 {
                     "name": "POSTGRES_PORT",
@@ -59,7 +59,7 @@
                 },
                 {
                     "name": "DD_API_KEY",
-                    "value": "12f2a1e88301811b4815d20bb562ab8a"
+                    "value": "api_datadog_key"
                 },
                 {
                   "name": "DJANGO_SECRET_KEY",
@@ -139,7 +139,7 @@
             "logConfiguration": {
                 "logDriver": "fluentd",
                 "options": {
-                    "fluentd-address": "services.dev.beblue:26224",
+                    "fluentd-address": "services.dev.domain:26224",
                     "fluentd-sub-second-precision": true,
                     "tag": "log.inline.json"
                 }
