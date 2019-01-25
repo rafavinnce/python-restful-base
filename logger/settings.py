@@ -11,11 +11,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-import environ
-
-root = environ.Path(__file__) - 1  # three folder back (/a/b/c/ - 1 = /)
-env = environ.Env(DEBUG=(bool, False),)  # set default values and casting
-environ.Env.read_env()  # reading .env file
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,13 +20,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('DJANGO_SECRET_KEY')
+# SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', '8lu*6g0lg)9z!ba+a$ehk)xt)x%rxgb$i1&amp;022shmi1jcgihb*')
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool('DJANGO_DEBUG', False)
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', False))
 
 ALLOWED_HOSTS = []
-
+allowed_hosts = os.environ.get('ALLOWED_HOSTS', [])
+if allowed_hosts:
+    ALLOWED_HOSTS = allowed_hosts.split(',')
 
 # Application definition
 
@@ -43,11 +41,36 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'handler',
+    'health',
+    'location',
+    'navigation',
+    # 'ddtrace.contrib.django',
 ]
+
+# DATADOG_TRACE = {
+#     'DEFAULT_SERVICE': os.environ.get("DATADOG_DEFAULT_SERVICE"),
+#     'TAGS': {'env': os.environ.get('DATADOG_TAGS_ENV')},
+#     'ENABLED': os.environ.get('DATADOG_ENABLED'),
+# }
+#
+# LOGGING = {
+#     'version': 1,
+#     'loggers': {
+#         'ddtrace': {
+#             'handlers': ['console'],
+#             'level': 'WARNING',
+#         },
+#     },
+# }
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
@@ -88,7 +111,15 @@ WSGI_APPLICATION = 'logger.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
-    'default': env.db(),
+    'default': {
+        'ENGINE': os.environ.get("POSTGRES_ENGINE"),
+        'NAME': os.environ.get("POSTGRES_NAME"),
+        'USER': os.environ.get("POSTGRES_USER"),
+        'PASSWORD': os.environ.get("POSTGRES_PASSWORD"),
+        'HOST': os.environ.get("POSTGRES_HOST"),
+        'PORT': os.environ.get('POSTGRES_PORT'),
+    }
+
 }
 
 
@@ -116,7 +147,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = os.environ.get("WORKSPACE_TZDATA")
 
 USE_I18N = True
 
