@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'handler',
     'health',
+    'location',
+    'navigation',
     # 'ddtrace.contrib.django',
 ]
 
