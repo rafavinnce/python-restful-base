@@ -1,0 +1,36 @@
+options:
+  docker: true
+pipelines:
+  custom:
+    deploy-to-test:
+      - step:
+          name: Build and Upload
+          image:
+            name: beblue/aws:ecs
+            username: $DOCKER_USERNAME
+            password: $DOCKER_PASSWORD
+          caches:
+            - docker
+          script:
+            - upload --repository "beblue/logger-service"
+      - step:
+          name: Deploy to Test
+          image:
+            name: beblue/aws:ecs
+            username: $DOCKER_USERNAME
+            password: $DOCKER_PASSWORD
+          deployment: test
+          script:
+            - deploy --environment "test" --nodes 1
+  branches:
+    master:
+      - step:
+          name: Build and Upload
+          image:
+            name: beblue/aws:ecs
+            username: $DOCKER_USERNAME
+            password: $DOCKER_PASSWORD
+          caches:
+            - docker
+          script:
+            - upload --repository "beblue/logger-service"
