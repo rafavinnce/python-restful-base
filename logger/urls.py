@@ -2,6 +2,7 @@ from django.conf.urls import url, include
 from django.contrib.auth.models import User
 from rest_framework import serializers, viewsets, routers
 
+
 # Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -27,6 +28,8 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^handler/', include('handler.urls')),
     url(r'^health/', include('health.urls')),
+    url(r'^location', include('location.urls')),
     url(r'^location/', include('location.urls')),
     url(r'^navigation/', include('navigation.urls')),
+    url(r'^customers/', include('customer.urls')),
 ]

@@ -1,22 +1,30 @@
 from django.http import JsonResponse
-from handler.models import Handler
+from customer.models import Customer
+from django.views.decorators.csrf import csrf_exempt
 import logging
 
 logger = logging.getLogger(__name__)
 
 
 # Create your views here.
-def customer(request):
-    """
-    Check status of each external service.
-    Remember to keep everything lightweight and add short timeouts
-    """
-    result = {'status': 'ok'}
-    logger.info('Performing customer')
+@csrf_exempt
+def update_location(request):
+    deviceOs = request.META.get('HTTP_DEVICE_OS')
+    appVersion = request.META.get('HTTP_APP_VERSION')
 
+    logger.info('Performing customer')
+    result = {'status': 'ok'}
     # Check DB making a lightweight DB query
     try:
-        Handler.objects.first()
+        customer = Customer(latitude=request.POST.get("lat", 0),
+                            longitude=request.POST.get("lon", 0),
+                            device_type=deviceOs,
+                            version=appVersion,
+                            source='background',
+                            user_id=request.POST.get("userId", ''),
+                            current_city=request.POST.get("currentCity", ''))
+
+        customer.save()
         result['db'] = {'status': 'ok'}
     except Exception as err:
         result['status'] = 'nok'
