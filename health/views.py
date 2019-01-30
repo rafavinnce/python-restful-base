@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from handler.models import Handler
+from user_locations.models import UserLocations
 import logging
 
 logger = logging.getLogger(__name__)
@@ -16,7 +16,7 @@ def health(request):
 
     # Check DB making a lightweight DB query
     try:
-        Handler.objects.first()
+        UserLocations.objects.first()
         result['db'] = {'status': 'ok'}
     except Exception as err:
         result['status'] = 'nok'

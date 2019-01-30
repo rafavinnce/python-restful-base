@@ -40,12 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'handler',
     'health',
-    'customer',
+    'user_locations',
     'event_merchant_view',
-    'location',
-    'navigation',
     # 'ddtrace.contrib.django',
 ]
 
