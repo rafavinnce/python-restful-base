@@ -3,6 +3,13 @@ from django.db import models
 
 # Create your models here.
 class Location(models.Model):
+    class Meta:
+        indexes = [
+            models.Index(fields=['user_id']),
+            models.Index(fields=['current_city']),
+            models.Index(fields=['created_at']),
+        ]
+
     user_id = models.CharField(null=False, max_length=100)
     latitude = models.DecimalField(null=False, decimal_places=17, max_digits=19)
     longitude = models.DecimalField(null=False, decimal_places=17, max_digits=19)
@@ -12,9 +19,3 @@ class Location(models.Model):
     device_type = models.CharField(null=False, max_length=10)
     version = models.CharField(null=False, max_length=10)
     source = models.CharField(null=False, max_length=10)
-
-    indexes = [
-        models.Index(fields=['user_id', 'idx_user_id']),
-        models.Index(fields=['current_city', 'idx_current_city']),
-        models.Index(fields=['created_at', 'idx_created_at']),
-    ]
