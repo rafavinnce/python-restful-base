@@ -5,7 +5,7 @@ from django.urls import reverse
 class CustomerTest(TestCase):
 
     def test_customer(self):
-        url = reverse('customer')
+        url = reverse('test_customer')
         response = self.client.get(url)
         assert response.status_code == 200
 
