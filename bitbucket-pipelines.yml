@@ -34,3 +34,13 @@ pipelines:
             - docker
           script:
             - upload --repository "beblue/logger-service"
+      - step:
+          name: Deploy to Production
+          image:
+            name: beblue/docker:cloud
+            username: $DOCKER_USERNAME
+            password: $DOCKER_PASSWORD
+          deployment: production
+          trigger: manual
+          script:
+            - deploy --strategy "rolling" --environment "production" --repository "beblue/logger-service" --stack "beblue/logger-service"
