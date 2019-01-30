@@ -2,10 +2,10 @@ from django.test import TestCase
 from django.urls import reverse
 
 
-class UserLocationsTest(TestCase):
+class LocationTest(TestCase):
 
-    def test_user_locations(self):
-        url = reverse('test_user_locations')
+    def test_location(self):
+        url = reverse('test_location')
         response = self.client.get(url)
         assert response.status_code == 200
 

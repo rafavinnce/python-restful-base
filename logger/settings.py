@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'health',
-    'user_locations',
-    'event_merchant_view',
+    'location',
+    'event',
     # 'ddtrace.contrib.django',
 ]
 

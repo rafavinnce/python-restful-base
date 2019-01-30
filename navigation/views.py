@@ -1,22 +1,24 @@
 from django.http import JsonResponse
-from location.models import Location
+from event.models import Event
+from django.views.decorators.csrf import csrf_exempt
 import logging
 
 logger = logging.getLogger(__name__)
 
 
 # Create your views here.
-def health(request):
-    """
-    Check status of each external service.
-    Remember to keep everything lightweight and add short timeouts
-    """
+@csrf_exempt
+def merchant_view(request):
+    logger.info('Performing Event')
     result = {'status': 'ok'}
-    logger.info('Performing healthcheck')
-
     # Check DB making a lightweight DB query
     try:
-        Location.objects.first()
+        event = Event(user_id=request.POST.get("userId", ''),
+                      merchant_id=request.POST.get("merchantId", ''),
+                      hotdeal=request.POST.get("hotdeal", False),
+                      promocode=request.POST.get("promocode", False))
+
+        event.save()
         result['db'] = {'status': 'ok'}
     except Exception as err:
         result['status'] = 'nok'
@@ -27,14 +29,14 @@ def health(request):
         }
         logger.error(err_msg)
 
-    logger.debug('Healtchcheck result {}'.format(result))
+    logger.debug('Event result {}'.format(result))
 
     status_code = 200
     if result['status'] != 'ok':
-        logger.error('Healthcheck result is bad')
+        logger.error('Event result is bad')
         status_code = 500
     else:
-        logger.info('Healtchcheck result is ok')
+        logger.info('Event result is ok')
 
     response = JsonResponse(result)
     response.status_code = status_code
