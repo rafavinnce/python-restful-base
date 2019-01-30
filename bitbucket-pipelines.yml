@@ -37,7 +37,7 @@ pipelines:
       - step:
           name: Deploy to Develop
           image:
-            name: beblue/docker:cloud
+            name: beblue/aws:ecs
             username: $DOCKER_USERNAME
             password: $DOCKER_PASSWORD
           deployment: test
@@ -57,7 +57,7 @@ pipelines:
       - step:
           name: Deploy to Production
           image:
-            name: beblue/docker:cloud
+            name: beblue/aws:ecs
             username: $DOCKER_USERNAME
             password: $DOCKER_PASSWORD
           deployment: production
