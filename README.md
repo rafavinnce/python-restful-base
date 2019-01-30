@@ -23,7 +23,6 @@ cd logger-service
 cp -R .env.example .env # rename variables with own values
 docker-compose up --build -d
 docker-compose exec logger_service python manage.py migrate 
-docker-compose exec logger_service python manage.py createsuperuser 
 ```
 
 ## Run
