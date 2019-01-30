@@ -22,26 +22,6 @@ pipelines:
           deployment: test
           script:
             - deploy --environment "test" --nodes 1
-    deploy-data-science-test:
-      - step:
-          name: Build and Upload
-          image:
-            name: beblue/aws:ecs
-            username: $DOCKER_USERNAME
-            password: $DOCKER_PASSWORD
-          caches:
-            - docker
-          script:
-            - upload --repository "beblue/logger-service"
-      - step:
-          name: Deploy to Test
-          image:
-            name: beblue/aws:ecs
-            username: $DOCKER_USERNAME
-            password: $DOCKER_PASSWORD
-          deployment: test
-          script:
-            - deploy --strategy "rolling" --environment "test" --repository "beblue/logger-service" --stack "beblue/logger-service"
   branches:
     develop:
       - step:
@@ -62,7 +42,7 @@ pipelines:
             password: $DOCKER_PASSWORD
           deployment: test
           script:
-            - deploy --strategy "rolling" --environment "test" --repository "beblue/logger-service" --stack "beblue/logger-service"
+            - deploy --environment "test" --nodes 1
     master:
       - step:
           name: Build and Upload
@@ -83,4 +63,4 @@ pipelines:
           deployment: production
           trigger: manual
           script:
-            - deploy --strategy "rolling" --environment "production" --repository "beblue/logger-service" --stack "beblue/logger-service"
+            - deploy --environment "production" --nodes 1
