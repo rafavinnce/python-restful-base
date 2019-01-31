@@ -51,7 +51,7 @@
                 },
                 {
                     "name": "POSTGRES_PASSWORD",
-                    "value": "dyIzmqY5D@gV"
+                    "value": "Z$BC1gGu6LHm"
                 },
                 {
                     "name": "POSTGRES_PORT",
@@ -83,7 +83,7 @@
                 },
                 {
                   "name": "DJANGO_MANAGEPY_MIGRATE",
-                  "value": "False"
+                  "value": "ON"
                 },
                 {
                   "name": "DJANGO_MANAGEPY_COLLECTSTATIC",

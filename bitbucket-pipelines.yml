@@ -43,6 +43,26 @@ pipelines:
           deployment: test
           script:
             - deploy --environment "test" --nodes 1
+    stage:
+      - step:
+          name: Build and Upload
+          image:
+            name: beblue/aws:ecs
+            username: $DOCKER_USERNAME
+            password: $DOCKER_PASSWORD
+          caches:
+            - docker
+          script:
+            - upload --repository "beblue/logger-service"
+      - step:
+          name: Deploy to Stage
+          image:
+            name: beblue/aws:ecs
+            username: $DOCKER_USERNAME
+            password: $DOCKER_PASSWORD
+          deployment: stage
+          script:
+            - deploy --environment "stage" --nodes 1
     master:
       - step:
           name: Build and Upload
