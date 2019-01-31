@@ -12,13 +12,25 @@ class Migration(migrations.Migration):
     dependencies = [
     ]
 
+    source = models.CharField(null=False, max_length=10)
+
     operations = [
         migrations.CreateModel(
             name='Location',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('text', models.CharField(max_length=140)),
-                ('timestamp', models.DateTimeField(auto_now_add=True)),
-            ],
+                ('user_id', models.CharField(null=False, max_length=100)),
+                ('latitude', models.DecimalField(null=False, decimal_places=17, max_digits=19)),
+                ('longitude', models.DecimalField(null=False, decimal_places=17, max_digits=19)),
+                ('created_at', models.DateTimeField(null=False, auto_now_add=True)),
+                ('current_city', models.CharField(null=False, max_length=60)),
+                ('is_city_calculated', models.BooleanField(null=False, default=False)),
+                ('device_type', models.CharField(null=False, max_length=10)),
+                ('version', models.CharField(null=False, max_length=10)),
+                ('source', models.CharField(null=False, max_length=10)),
+            ]
         ),
+        migrations.AddIndex('Location', models.Index(fields=['user_id'], name='idx_loc_user_id')),
+        migrations.AddIndex('Location', models.Index(fields=['current_city'], name='idx_loc_current_city')),
+        migrations.AddIndex('Location', models.Index(fields=['created_at'], name='idx_loc_created_at'))
     ]

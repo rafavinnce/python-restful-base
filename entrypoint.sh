@@ -3,9 +3,7 @@ set -e
 
 python manage.py
 
-if [ "x$DJANGO_MANAGEPY_MIGRATE" = 'xon' ]; then
-    python manage.py migrate --noinput
-fi
+python manage.py migrate --noinput
 
 # AWS Envs
 export AWS_HOST_IP=$(curl -sf -m 3 http://169.254.169.254/latest/meta-data/local-ipv4)

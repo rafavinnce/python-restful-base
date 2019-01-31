@@ -1,5 +1,5 @@
 {
-    "family": "test-logger-service",
+    "family": "production-logger-service",
     "requiresCompatibilities": [
         "EC2"
     ],
@@ -31,7 +31,7 @@
                 },
                 {
                     "name": "ENVIRONMENT",
-                    "value": "development"
+                    "value": "stage"
                 },
                 {
                     "name": "POSTGRES_ENGINE",
@@ -39,7 +39,7 @@
                 },
                 {
                     "name": "POSTGRES_HOST",
-                    "value": "postgre-dev.database.beblue.com.br"
+                    "value": "postgre-stage.database.beblue.com.br"
                 },
                 {
                     "name": "POSTGRES_NAME",
@@ -51,7 +51,7 @@
                 },
                 {
                     "name": "POSTGRES_PASSWORD",
-                    "value": "dyIzmqY5D@gV"
+                    "value": "a68!*N17zenf"
                 },
                 {
                     "name": "POSTGRES_PORT",
@@ -67,7 +67,7 @@
                 },
                 {
                   "name": "DJANGO_DEBUG",
-                  "value": "True"
+                  "value": "False"
                 },
                 {
                   "name": "DATADOG_ENABLED",
@@ -75,7 +75,7 @@
                 },
                 {
                   "name": "DATADOG_TAGS_ENV",
-                  "value": "test"
+                  "value": "stage"
                 },
                 {
                   "name": "DATADOG_DEFAULT_SERVICE",
