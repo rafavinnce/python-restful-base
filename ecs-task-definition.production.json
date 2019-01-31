@@ -139,7 +139,7 @@
             "logConfiguration": {
                 "logDriver": "fluentd",
                 "options": {
-                    "fluentd-address": "services.dev.beblue:26224",
+                    "fluentd-address": "services.prod.beblue:26224",
                     "fluentd-sub-second-precision": true,
                     "tag": "log.inline.json"
                 }
