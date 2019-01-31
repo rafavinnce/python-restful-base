@@ -1,0 +1,149 @@
+{
+    "family": "production-logger-service",
+    "requiresCompatibilities": [
+        "EC2"
+    ],
+    "containerDefinitions": [
+        {
+            "name": "logger-service",
+            "image": "beblue/logger-service",
+            "cpu": 256,
+            "memory": 1024,
+            "portMappings": [
+                {
+                    "HostPort": 0,
+                    "ContainerPort": 8000,
+                    "Protocol": "tcp"
+                }
+            ],
+            "environment": [
+                {
+                  "name": "SERVICE_ID",
+                  "value": "container:<id>"
+                },
+                {
+                  "name": "SERVICE_CHECK_HTTP",
+                  "value": "/health/"
+                },
+                {
+                  "name": "SERVICE_CHECK_DEREGISTER_AFTER",
+                  "value": "5m"
+                },
+                {
+                    "name": "ENVIRONMENT",
+                    "value": "production"
+                },
+                {
+                    "name": "POSTGRES_ENGINE",
+                    "value": "django.db.backends.postgresql"
+                },
+                {
+                    "name": "POSTGRES_HOST",
+                    "value": "postgre-prod.database.beblue.com.br"
+                },
+                {
+                    "name": "POSTGRES_NAME",
+                    "value": "logger_service"
+                },
+                {
+                  "name": "POSTGRES_USER",
+                  "value": "logger_service"
+                },
+                {
+                    "name": "POSTGRES_PASSWORD",
+                    "value": "dyIzmqY5D@gV"
+                },
+                {
+                    "name": "POSTGRES_PORT",
+                    "value": "5432"
+                },
+                {
+                    "name": "DD_API_KEY",
+                    "value": "12f2a1e88301811b4815d20bb562ab8a"
+                },
+                {
+                  "name": "DJANGO_SECRET_KEY",
+                  "value": "8lu*6g0lg)9z!ba+a$ehk)xt)x%rxgb$i1&amp;022shmi1jcgihb*"
+                },
+                {
+                  "name": "DJANGO_DEBUG",
+                  "value": "False"
+                },
+                {
+                  "name": "DATADOG_ENABLED",
+                  "value": "True"
+                },
+                {
+                  "name": "DATADOG_TAGS_ENV",
+                  "value": "production"
+                },
+                {
+                  "name": "DATADOG_DEFAULT_SERVICE",
+                  "value": "logger-service"
+                },
+                {
+                  "name": "DJANGO_MANAGEPY_MIGRATE",
+                  "value": "False"
+                },
+                {
+                  "name": "DJANGO_MANAGEPY_COLLECTSTATIC",
+                  "value": "False"
+                },
+                {
+                  "name": "ALLOWED_HOSTS",
+                  "value": "*"
+                },
+                {
+                  "name": "WORKSPACE_APP_PORT",
+                  "value": "8000"
+                },
+                {
+                  "name": "WORKSPACE_SSH_PORT",
+                  "value": "2222"
+                },
+                {
+                  "name": "WORKSPACE_TZDATA",
+                  "value": "America/Sao_Paulo"
+                },
+                {
+                  "name": "DATA_PATH_HOST",
+                  "value": "~/.logger-service/data"
+                },
+                {
+                  "name": "APP_CODE_PATH_HOST",
+                  "value": "./"
+                },
+                {
+                  "name": "APP_CODE_PATH_CONTAINER",
+                  "value": "/logger-service:cached"
+                },
+                {
+                  "name": "VOLUMES_DRIVER",
+                  "value": "local"
+                },
+                {
+                  "name": "NETWORKS_DRIVER",
+                  "value": "bridge"
+                }
+            ],
+            "healthCheck": {
+                "invertal": 30,
+                "timeout": 5,
+                "startPeriod": 120,
+                "retries": 3,
+                "command": [
+                    "CMD-SHELL",
+                    "test \"passing\" == $(curl -sf http://host-ip:8500/v1/agent/checks | jq -r '.[\"service:container:'$(cut -d\"/\" -f4 < /proc/1/cpuset)'\"].Status')"
+                ]
+            },
+            "logConfiguration": {
+                "logDriver": "fluentd",
+                "options": {
+                    "fluentd-address": "services.dev.beblue:26224",
+                    "fluentd-sub-second-precision": true,
+                    "tag": "log.inline.json"
+                }
+            }
+        }
+    ]
+}
