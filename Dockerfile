@@ -55,6 +55,10 @@ ENV UWSGI_WSGI_FILE=logger/wsgi.py UWSGI_HTTP=:8000 UWSGI_MASTER=1 UWSGI_WORKERS
 # RUN python manage.py
 ## RUN ddtrace-run python manage.py
 
+RUN python manage.py
+
+#RUN python manage.py migrate --noinput
+
 ## Startup Script
 RUN chmod +x /code/entrypoint.sh
 ENTRYPOINT ["/code/entrypoint.sh"]

@@ -26,9 +26,9 @@ router.register(r'users', UserViewSet)
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^health/', include('health.urls')),
-    url(r'^location', include('location.urls')),
-    url(r'^location/', include('location.urls')),
-    url(r'^navigation/', include('navigation.urls')),
-    url(r'^customers/', include('customers.urls')),
+    url(r'^health/', include('health.urls', namespace='health')),
+    url(r'^location', include('location.urls', namespace='location')),
+    url(r'^location/', include('location.urls', namespace='location')),
+    url(r'^navigation/', include('navigation.urls', namespace='navigation')),
+    url(r'^customers/', include('customers.urls', namespace='customers')),
 ]
