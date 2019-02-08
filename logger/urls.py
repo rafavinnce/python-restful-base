@@ -25,10 +25,15 @@ router.register(r'users', UserViewSet)
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     url(r'^', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^health/', include('health.urls', namespace='health')),
-    url(r'^location', include('location.urls', namespace='location')),
-    url(r'^location/', include('location.urls', namespace='location')),
-    url(r'^navigation/', include('navigation.urls', namespace='navigation')),
-    url(r'^customers/', include('customers.urls', namespace='customers')),
+    url(r'^api-auth/', include('rest_framework.urls')),
+    url(r'^health/', include('health.urls')),
+    url(r'^logger-service/health/', include('health.urls')),
+    url(r'^location', include('location.urls')),
+    url(r'^logger-service/location', include('location.urls')),
+    url(r'^location/', include('location.urls')),
+    url(r'^logger-service/location/', include('location.urls')),
+    url(r'^navigation/', include('navigation.urls')),
+    url(r'^logger-service/navigation/', include('navigation.urls')),
+    url(r'^customers/', include('customers.urls')),
+    url(r'^logger-service/customers/', include('customers.urls')),
 ]
