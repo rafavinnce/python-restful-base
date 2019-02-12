@@ -2,6 +2,8 @@ from django.http import JsonResponse
 from location.models import Location
 from django.views.decorators.csrf import csrf_exempt
 import logging
+import json
+import jwt
 
 logger = logging.getLogger(__name__)
 
@@ -11,18 +13,33 @@ logger = logging.getLogger(__name__)
 def update_location(request):
     deviceOs = request.META.get('HTTP_DEVICE_OS')
     appVersion = request.META.get('HTTP_APP_VERSION')
+    auth = request.META.get('HTTP_AUTHORIZATION')
+    items = auth.split()
+
+    if len(items) > 1 and ((items[0].strip() == 'Bearer') or items[0].strip() == 'bearer'):
+        token = items[1]
+    else:
+        token = auth
+
+    options = {'verify_aud': False, 'verify_exp': False}
+    decoded = jwt.decode(token, 'da39a3ee5e6b4b0d3255bfef95601890afd80709', algorithms=['HS256'], options=options)
+    user_id = decoded['beblueUser_']
+
+    data = json.loads(request.body)
+    latitude = data['lat']
+    longitude = data['lon']
 
     logger.info('Performing Location')
     result = {'status': 'ok'}
     # Check DB making a lightweight DB query
     try:
-        location = Location(latitude=request.POST.get("lat", 0),
-                                       longitude=request.POST.get("lon", 0),
+        location = Location(latitude=latitude,
+                                       longitude=longitude,
                                        device_type=deviceOs,
                                        version=appVersion,
                                        source='background',
-                                       user_id=request.POST.get("userId", ''),
-                                       current_city=request.POST.get("currentCity", ''))
+                                       user_id=user_id,
+                                       current_city='')
 
         location.save()
         result['db'] = {'status': 'ok'}
