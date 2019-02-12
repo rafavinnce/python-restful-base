@@ -23,7 +23,7 @@
                 },
                 {
                   "name": "SERVICE_CHECK_HTTP",
-                  "value": "/health/"
+                  "value": "/logger-service/health"
                 },
                 {
                   "name": "SERVICE_CHECK_DEREGISTER_AFTER",

@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from location.models import Location
 from django.views.decorators.csrf import csrf_exempt
 import logging
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -9,20 +10,24 @@ logger = logging.getLogger(__name__)
 # Create your views here.
 @csrf_exempt
 def location(request):
-    deviceOs = request.META.get('HTTP_DEVICE_OS')
-    appVersion = request.META.get('HTTP_APP_VERSION')
-
     logger.info('Performing Location')
     result = {'status': 'ok'}
+
+    data = json.loads(request.body)
+    latitude = data['lat']
+    longitude = data['lon']
+    user_id = data['userId']
+    current_city = data['currentCity']
     # Check DB making a lightweight DB query
+
     try:
-        location = Location(latitude=request.POST.get("lat", 0),
-                            longitude=request.POST.get("lon", 0),
-                            device_type=deviceOs,
-                            version=appVersion,
+        location = Location(latitude=latitude,
+                            longitude=longitude,
+                            device_type=None,
+                            version=None,
                             source='app_open',
-                            user_id=request.POST.get("userId", ''),
-                            current_city=request.POST.get("currentCity", ''))
+                            user_id=user_id,
+                            current_city=current_city)
 
         location.save()
         result['db'] = {'status': 'ok'}
@@ -51,20 +56,26 @@ def location(request):
 
 @csrf_exempt
 def background(request):
-    deviceOs = request.META.get('HTTP_DEVICE_OS')
-    appVersion = request.META.get('HTTP_APP_VERSION')
-
     logger.info('Performing Location')
     result = {'status': 'ok'}
     # Check DB making a lightweight DB query
+
+    data = json.loads(request.body)
+    latitude = data['lat']
+    longitude = data['lon']
+    user_id = data['userId']
+    current_city = data['currentCity']
+    device_type = data['deviceType']
+    version = data['appVersion']
+
     try:
-        location = Location(latitude=request.POST.get("lat", 0),
-                            longitude=request.POST.get("lon", 0),
-                            device_type=deviceOs,
-                            version=appVersion,
+        location = Location(latitude=latitude,
+                            longitude=longitude,
+                            device_type=device_type,
+                            version=version,
                             source='background',
-                            user_id=request.POST.get("userId", ''),
-                            current_city=request.POST.get("currentCity", ''))
+                            user_id=user_id,
+                            current_city=current_city)
 
         location.save()
         result['db'] = {'status': 'ok'}

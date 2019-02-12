@@ -10,3 +10,4 @@ pyyaml
 ddtrace # Datadog APM integration - http://pypi.datadoghq.com/trace/docs/web_integrations.html#django
 requests==2.19.1
 uwsgi
+PyJWT
