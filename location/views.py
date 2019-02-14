@@ -23,8 +23,8 @@ def location(request):
     try:
         location = Location(latitude=latitude,
                             longitude=longitude,
-                            device_type=None,
-                            version=None,
+                            device_type='',
+                            version='',
                             source='app_open',
                             user_id=user_id,
                             current_city=current_city)
