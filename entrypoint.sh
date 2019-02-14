@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+python manage.py migrate --noinput
+
 # AWS Envs
 export AWS_HOST_IP=$(curl -sf -m 3 http://169.254.169.254/latest/meta-data/local-ipv4)
 

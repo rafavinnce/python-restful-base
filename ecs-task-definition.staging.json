@@ -31,7 +31,7 @@
                 },
                 {
                     "name": "ENVIRONMENT",
-                    "value": "stage"
+                    "value": "staging"
                 },
                 {
                     "name": "POSTGRES_ENGINE",
@@ -51,7 +51,7 @@
                 },
                 {
                     "name": "POSTGRES_PASSWORD",
-                    "value": "a68!*N17zenf"
+                    "value": "dyIzmqY5D@gV"
                 },
                 {
                     "name": "POSTGRES_PORT",
@@ -75,7 +75,7 @@
                 },
                 {
                   "name": "DATADOG_TAGS_ENV",
-                  "value": "stage"
+                  "value": "staging"
                 },
                 {
                   "name": "DATADOG_DEFAULT_SERVICE",
