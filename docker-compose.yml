@@ -1,8 +1,6 @@
 version: '3'
 
 networks:
-  frontend:
-    driver: ${NETWORKS_DRIVER}
   backend:
     driver: ${NETWORKS_DRIVER}
 
@@ -34,11 +32,8 @@ services:
       dockerfile: ./Dockerfile
     depends_on:
       - database
-    links:
-      - database:database
     ports:
       - "${WORKSPACE_APP_PORT}:8000"
       - "${WORKSPACE_SSH_PORT}:22"
     networks:
       - backend
-      - frontend
