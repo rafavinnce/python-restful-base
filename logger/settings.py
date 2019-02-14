@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import socket
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -43,24 +44,49 @@ INSTALLED_APPS = [
     'health',
     'location',
     'event',
-    # 'ddtrace.contrib.django',
+
+    # tracing
+    'ddtrace.contrib.django',
 ]
 
-# DATADOG_TRACE = {
-#     'DEFAULT_SERVICE': os.environ.get("DATADOG_DEFAULT_SERVICE"),
-#     'TAGS': {'env': os.environ.get('DATADOG_TAGS_ENV')},
-#     'ENABLED': os.environ.get('DATADOG_ENABLED'),
-# }
-#
-# LOGGING = {
-#     'version': 1,
-#     'loggers': {
-#         'ddtrace': {
-#             'handlers': ['console'],
-#             'level': 'WARNING',
-#         },
-#     },
-# }
+local_machine_ip = socket.gethostbyname(socket.gethostname())
+
+DATADOG_TRACE = {
+    'DEFAULT_SERVICE': os.environ.get("DATADOG_DEFAULT_SERVICE"),
+    'TAGS': {'env': os.environ.get('DATADOG_TAGS_ENV')},
+    'ENABLED': os.environ.get('DATADOG_ENABLED'),
+    'AGENT_HOSTNAME': '172.26.0.2',
+}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'ddtrace': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -75,6 +101,9 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
+    # tracing
+    # 'ddtrace.contrib.django.TraceMiddleware',
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
