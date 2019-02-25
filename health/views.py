@@ -16,7 +16,6 @@ def health(request):
 
     # Check DB making a lightweight DB query
     try:
-        Location.objects.first()
         result['db'] = {'status': 'ok'}
     except Exception as err:
         result['status'] = 'nok'
