@@ -71,7 +71,7 @@
                 },
                 {
                   "name": "DATADOG_ENABLED",
-                  "value": "True"
+                  "value": "False"
                 },
                 {
                   "name": "DATADOG_TAGS_ENV",
