@@ -5,7 +5,7 @@ from django.db import transaction
 import logging
 import json
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger()
 
 
 # Create your views here.

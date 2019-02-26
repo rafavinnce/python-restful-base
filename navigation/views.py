@@ -6,7 +6,7 @@ import logging
 import json
 import jwt
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger()
 
 
 # Create your views here.
