@@ -50,8 +50,8 @@
                   "value": "logger_service"
                 },
                 {
-                    "name": "POSTGRES_PASSWORD",
-                    "value": "dyIzmqY5D@gV"
+                  "name": "POSTGRES_PASSWORD",
+                  "value": "dyIzmqY5D@gV"
                 },
                 {
                     "name": "POSTGRES_PORT",
@@ -71,6 +71,10 @@
                 },
                 {
                   "name": "DATADOG_ENABLED",
+                  "value": "False"
+                },
+                {
+                  "name": "DATADOG_TRACE_DEBUG",
                   "value": "False"
                 },
                 {

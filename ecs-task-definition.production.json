@@ -74,6 +74,10 @@
                   "value": "False"
                 },
                 {
+                  "name": "DATADOG_TRACE_DEBUG",
+                  "value": "False"
+                },
+                {
                   "name": "DATADOG_TAGS_ENV",
                   "value": "production"
                 },
