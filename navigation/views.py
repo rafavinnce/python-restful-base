@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from event.models import Event
 from django.views.decorators.csrf import csrf_exempt
+from django.db import transaction
 import logging
 import json
 import jwt
@@ -10,6 +11,7 @@ logger = logging.getLogger(__name__)
 
 # Create your views here.
 @csrf_exempt
+@transaction.non_atomic_requests
 def merchant_view(request):
     auth = request.META.get('HTTP_AUTHORIZATION')
     items = auth.split()

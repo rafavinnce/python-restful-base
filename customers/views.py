@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from location.models import Location
 from django.views.decorators.csrf import csrf_exempt
+from django.db import transaction
 import logging
 import json
 import jwt
@@ -10,6 +11,7 @@ logger = logging.getLogger(__name__)
 
 # Create your views here.
 @csrf_exempt
+@transaction.non_atomic_requests
 def update_location(request):
     deviceOs = request.META.get('HTTP_DEVICE_OS')
     appVersion = request.META.get('HTTP_APP_VERSION')

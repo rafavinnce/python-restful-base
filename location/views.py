@@ -3,12 +3,14 @@ from location.models import Location
 from django.views.decorators.csrf import csrf_exempt
 import logging
 import json
+from django.db import transaction
 
 logger = logging.getLogger(__name__)
 
 
 # Create your views here.
 @csrf_exempt
+@transaction.non_atomic_requests
 def location(request):
     logger.info('Performing Location')
     result = {'status': 'ok'}
@@ -55,6 +57,7 @@ def location(request):
 
 
 @csrf_exempt
+@transaction.non_atomic_requests
 def background(request):
     logger.info('Performing Location')
     result = {'status': 'ok'}
