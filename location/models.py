@@ -5,9 +5,9 @@ from django.db import models
 class Location(models.Model):
     class Meta:
         indexes = [
-            models.Index(fields=['user_id']),
-            models.Index(fields=['current_city']),
-            models.Index(fields=['created_at']),
+            models.Index(fields=['user_id'], name='idx_loc_user_id'),
+            models.Index(fields=['current_city'], name='idx_loc_current_city'),
+            models.Index(fields=['created_at'], name='idx_loc_created_at'),
         ]
 
     user_id = models.CharField(null=False, max_length=100)

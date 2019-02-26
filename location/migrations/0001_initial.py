@@ -29,8 +29,5 @@ class Migration(migrations.Migration):
                 ('version', models.CharField(null=False, max_length=10)),
                 ('source', models.CharField(null=False, max_length=10)),
             ]
-        ),
-        migrations.AddIndex('Location', models.Index(fields=['user_id'], name='idx_loc_user_id')),
-        migrations.AddIndex('Location', models.Index(fields=['current_city'], name='idx_loc_current_city')),
-        migrations.AddIndex('Location', models.Index(fields=['created_at'], name='idx_loc_created_at'))
+        )
     ]

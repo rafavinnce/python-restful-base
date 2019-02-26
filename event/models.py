@@ -5,9 +5,9 @@ from django.db import models
 class Event(models.Model):
     class Meta:
         indexes = [
-            models.Index(fields=['user_id']),
-            models.Index(fields=['merchant_id']),
-            models.Index(fields=['created_at']),
+            models.Index(fields=['user_id'], name='idx_evt_user_id'),
+            models.Index(fields=['merchant_id'], name='idx_evt_merchant_id'),
+            models.Index(fields=['created_at'], name='idx_evt_created_at'),
         ]
 
     user_id = models.CharField(null=False, max_length=100)
