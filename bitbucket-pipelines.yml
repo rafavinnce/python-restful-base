@@ -64,4 +64,4 @@ pipelines:
           deployment: production
           trigger: manual
           script:
-            - deploy --environment "production" --nodes 1
+            - deploy --environment "production" --nodes 2
